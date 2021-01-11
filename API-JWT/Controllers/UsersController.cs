@@ -6,6 +6,7 @@ using API_JWT.Entities;
 using API_JWT.Models;
 using API_JWT.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,7 +40,12 @@ namespace API_JWT.Controllers
                 return aures;
             } catch(Exception x)
             {
-                return Ok(x.Message);
+                var error = new ErrorResponse()
+                {
+                    ErrorCode = StatusCodes.Status403Forbidden.ToString(),
+                    ErrorMessage = x.Message
+                };
+                return StatusCode(StatusCodes.Status403Forbidden, error);
             }
              
         }
